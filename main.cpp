@@ -3,19 +3,24 @@
 const std::string octave[] { "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#" };
 const int NOTES_IN_OCTAVE = sizeof(octave)/sizeof(std::string);
 
-void printFrets(std::string note){
+int getRootNoteIndex(std::string note){
+    int rootNote {};
     for(int i {0}; i < NOTES_IN_OCTAVE; ++i){
         if(octave[i] == note){
-            for(int j {i}; j < NOTES_IN_OCTAVE; ++j){
-                std::cout << octave[j] << ' ';
-                if(j == NOTES_IN_OCTAVE-1){
-                    for(int k {0}; k < i; ++k){
-                        std::cout << octave[k] << ' ';
-                    }
-                }
-            }
+            rootNote = i;
         }
     }
+
+    return rootNote;
+}
+
+void printFrets(std::string note){
+    int rootNote = getRootNoteIndex(note);
+
+    for(int fretOffset {0}; fretOffset < NOTES_IN_OCTAVE; ++fretOffset){
+            std::cout << octave[(rootNote + fretOffset) % 12] << ' ';
+    }
+
     std::cout << '\n';
 }
 
